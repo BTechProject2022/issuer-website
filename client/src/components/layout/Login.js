@@ -82,9 +82,6 @@ class Login extends Component{
                         {errors.passwordincorrect}
                     </span>
                 </div>
-                    <span>
-                        <Link to="/forgot-password">Forgot Password?</Link>
-                    </span>
                 <div className="form-group">
                     <button type="submit" className="btn btn-primary btn-block btn-lg">Login</button>
                 </div>

@@ -14,8 +14,6 @@ import Register from "./components/layout/Register";
 import Login from "./components/layout/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/layout/Dashboard";
-import ForgetPassword from "./components/layout/ForgetPassword";
-import ResetPassword from "./components/layout/ResetPassword";
 
 
 if (localStorage.jwtToken) {
@@ -40,8 +38,6 @@ function App() {
           <Route path="/" component = {Landing} exact />
           <Route path="/register" component={Register} exact/>
           <Route path="/login" component={Login} exact/>
-          <Route path="/forgot-password" component={ForgetPassword} exact/>
-            <Route path="/password-reset/:id/:token" component={ResetPassword} />
           <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
