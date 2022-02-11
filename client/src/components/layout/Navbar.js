@@ -1,11 +1,17 @@
 import React,{Component} from "react";
 import {Link} from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Container , Navbar , Nav } from "react-bootstrap";
+import { Button , Container , Navbar , Nav } from "react-bootstrap";
+import { useSelector } from 'react-redux'
+import { logoutUser } from "../../actions/authActions";
 
 const NavBar = () => {
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const isAdmin = true;
+    const isAdmin = useSelector(state => state.auth.user.isAdmin );
+
+    const onLogout = (e) =>{
+        e.preventDefault();
+        logoutUser();
+    }
     return(
         <>
         <Navbar bg="dark" variant="dark">

@@ -22,7 +22,7 @@ class Landing extends Component {
               </Link>
               <Link
                 to="/login"
-                className="btn btn-large btn-light hoverable ml-5"
+                className="btn btn-large btn-dark hoverable ml-5"
               >
                 Log In
               </Link>

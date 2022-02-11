@@ -5,7 +5,6 @@ import store from './store';
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./util/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
-import { useSelector } from 'react-redux'
 
 //import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';

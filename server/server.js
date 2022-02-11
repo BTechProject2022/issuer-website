@@ -7,10 +7,10 @@ const bcrypt = require("bcryptjs");
 
 const users = require("./routes/api/users");
 
-// Load User model for admin registartion
-const User = require("./models/UserSchema");
-
 const app = express();
+
+//to create admin
+const User = require("./models/UserSchema");
 
 // Bodyparser middleware
 app.use(
@@ -29,25 +29,32 @@ mongoose
     { useUnifiedTopology:true, useNewUrlParser: true }
     )
     .then(() => {
-        const admin = new User({
-            name:"admin",
-            password:"admin",
-            email:"test@test.com"
-        });
 
-        // Hash password before storing in database
-        const rounds  = 10;
-        bcrypt.genSalt(rounds, (err, salt) => {
-            bcrypt.hash(admin.password, salt, (err, hash) => {
-            if (err) throw err;
-            admin.password = hash;
-            admin
-                .save()
-                .catch(err => console.log(err));
-            });
+        User.findOne({email:"admin@admin.com"}).then(user=>{
+
+            if(!user){
+                const admin = new User({
+                    name:"admin",
+                    password:"admin",
+                    email:"admin@admin.com",
+                    isAdmin : true,
+                });
+
+                // Hash password before storing in database
+                const rounds  = 10;
+                bcrypt.genSalt(rounds, (err, salt) => {
+                    bcrypt.hash(admin.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    admin.password = hash;
+                    admin
+                        .save()
+                        .catch(err => console.log(err));
+                    });
+                });
+            }
+
         });
-        console.log("Admin Details :")
-        console.log("email : test@test.com , password : admin")
+        console.log("Admin Details, email : admin@admin.com , password : admin");
         console.log("MongoDB successfully connected")
     })
     .catch(err => console.log(err));

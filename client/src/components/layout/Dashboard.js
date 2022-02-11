@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { QRCode } from "react-qr-svg";
+import { Button } from "react-bootstrap";
 
 class Dashboard extends Component {
   onLogout = e => {
@@ -15,7 +16,7 @@ render() {
     const qrValue = JSON.stringify(user);
     console.log(qrValue);
     return (
-      <div  className="container text-center mt-15">
+      <div  className="container text-center mt-5">
         <div className="row">
           <div className="col-sm-12">
             <h4>
@@ -24,20 +25,24 @@ render() {
                 You are logged into the College Website
               </p>
             </h4>
-            <QRCode
-                bgColor="#FFFFFF"
-                fgColor="#000000"
-                level="Q"
-                style={{ width: 256 }}
-                value={qrValue}
-            />
+            {
+                !user.isAdmin &&
+                <QRCode
+                    bgColor="#FFFFFF"
+                    fgColor="#000000"
+                    level="Q"
+                    style={{ width: 256 }}
+                    value={qrValue}
+                />
+            }
             <div>
-            <button
+            <Button
               onClick={this.onLogout}
-              className="btn btn-large btn-light hoverable font-weight-bold"
+              variant="dark"
+              className="mt-3"
             >
               Logout
-            </button></div>
+            </Button></div>
           </div>
         </div>
       </div>
