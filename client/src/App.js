@@ -5,8 +5,10 @@ import store from './store';
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./util/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { useSelector } from 'react-redux'
 
-import './App.css';
+//import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
@@ -14,7 +16,7 @@ import Register from "./components/layout/Register";
 import Login from "./components/layout/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/layout/Dashboard";
-
+import CreateSchema from "./components/layout/CreateSchema";
 
 if (localStorage.jwtToken) {
 
@@ -30,21 +32,21 @@ if (localStorage.jwtToken) {
 }
 
 function App() {
-  return (
-    <Provider store={store} >
-      <Router>
-        <div className="App">
-          <Navbar/>
-          <Route path="/" component = {Landing} exact />
-          <Route path="/register" component={Register} exact/>
-          <Route path="/login" component={Login} exact/>
-          <Switch>
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            </Switch>
-        </div>
-      </Router>
-    </Provider>
-    
+    return (
+        <Provider store={store} >
+        <Router>
+            <div className="App">
+            <Navbar/>
+            <Route path="/" component = {Landing} exact />
+            <Route path="/register" component={Register} exact/>
+            <Route path="/login" component={Login} exact/>
+            <Switch>
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/createSchema" component={CreateSchema} />
+                </Switch>
+            </div>
+        </Router>
+        </Provider>
   );
 }
 

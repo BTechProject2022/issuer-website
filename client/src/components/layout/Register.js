@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import classnames from "classnames";
+import { InputGroup , Button , Form , Card , Container } from "react-bootstrap";
 
 class Register extends Component{
     constructor(){
@@ -50,74 +51,94 @@ class Register extends Component{
     render(){
         const {name, email, password, password2 ,errors} = this.state;
 
-        return(
-            <div className="form-box ">
-            <form className="signup-form"  onSubmit={this.onSubmit}>
-
-               <div><Link to="/"><i className="fa fa-arrow-circle-left  "></i> Back to Home</Link></div>
-
-                <h2>Register</h2>
-                <hr/>
-                <div className="form-group">
-                    <input type="text" 
-                           id="name" 
-                           placeholder="Name" 
-                           value={name}
-                           error={errors.name} 
-                           onChange={this.onChange} 
-                           className={classnames("form-control", {
-                            invalid: errors.name
-                          })}/> 
-                        <span className="red-text">{errors.name}</span>
-
-                </div>
-
-                <div className="form-group">
-                    <input type="email" 
-                           id="email" 
-                           placeholder="Email Address" 
-                           value={email}
-                           error={errors.email}
-                           onChange={this.onChange} 
-                           className={classnames("form-control", {
-                            invalid: errors.email
-                          })}/>
-                    <span className="red-text">{errors.email}</span>
-                </div>
-
-                <div className="form-group">
-                    <input type="password" 
-                           id="password" 
-                           placeholder="Password" 
-                           value={password}
-                           error= {errors.password} 
-                           onChange={this.onChange}
-                           className={classnames("form-control", {
-                            invalid: errors.password
-                          })} />
-                    <span className="red-text">{errors.password}</span>                     
-                </div>
-
-                <div className="form-group">
-                    <input type="password" 
-                           id="password2"
-                           placeholder="Confirm Password" 
-                           value={password2} 
-                           error={errors.password}
-                           onChange={this.onChange}
-                           className={classnames("form-control", {
-                            invalid: errors.password2
-                          })} />
-                    <span className="red-text">{errors.password2}</span>
-                </div>
-                <div className="form-group">
-                    <button type="submit" className="btn btn-primary btn-block btn-lg">Sign Up</button>
-                </div>
-                <div className="text-center">Already have an account? <Link to="/login">Login here</Link></div>
-
-            </form>
-        </div>
-        )
+        return(<>
+        <Container className="d-flex flex-column align-items-center">
+        <Card className="shadow w-50 mt-5">
+            <Link to="/" class="text-decoration-none text-white bg-dark pl-5 pt-3"><i className="fa fa-arrow-circle-left  "></i> Back to Home</Link>
+            <Card.Header className='pl-5 pt-3 pb-2 bg-dark text-white'>
+                <h2><strong>Register</strong></h2>
+            </Card.Header>
+            <Card.Body className='px-5'>
+                <Form onSubmit={this.onSubmit}>
+                    <Form.Group className="mt-2 mb-3">
+                        <Form.Control
+                            type="text" 
+                            id="name" 
+                            placeholder="Name" 
+                            value={name}
+                            error={errors.name} 
+                            onChange={this.onChange} 
+                            className={classnames("form-control", {
+                                invalid: errors.name
+                            })}
+                            isInvalid={!!errors.name}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.name}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group className="mt-2 mb-3">
+                        <Form.Control
+                            type="email" 
+                            id="email" 
+                            placeholder="Email Address" 
+                            value={email}
+                            error={errors.email}
+                            onChange={this.onChange} 
+                            className={classnames("form-control", {
+                                invalid: errors.email
+                            })}
+                            isInvalid={!!errors.email}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.email}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group className="mt-2 mb-3">
+                        <Form.Control
+                            type="password" 
+                            id="password" 
+                            placeholder="Password" 
+                            value={password}
+                            error= {errors.password} 
+                            onChange={this.onChange}
+                            className={classnames("form-control", {
+                                invalid: errors.password
+                            })} 
+                            isInvalid={!!errors.password}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.password}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group className="mt-2 mb-3">
+                        <Form.Control
+                            type="password" 
+                            id="password2"
+                            placeholder="Confirm Password" 
+                            value={password2} 
+                            error={errors.password2}
+                            onChange={this.onChange}
+                            className={classnames("form-control", {
+                                invalid: errors.password2
+                            })}
+                            isInvalid={!!errors.password2}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.password2}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <div className='d-flex flex-column align-items-center mt-3'>
+                        <Button variant="primary" type="submit">
+                            Sign up
+                        </Button>
+                    </div>
+                    <div className="text-center mt-3">Already have an account? <Link to="/login" class="text-decoration-none">Login here</Link></div>
+                </Form>
+            </Card.Body>
+        </Card>
+        </Container>
+        </>)
     }
 }
 

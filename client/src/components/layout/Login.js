@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import classnames from "classnames";
+import { InputGroup , Button , Form , Card , Container } from "react-bootstrap";
 
 class Login extends Component{
     constructor(){
@@ -47,50 +48,61 @@ class Login extends Component{
     }
     render(){
         const {email, password, errors} = this.state;
-        return(
-            <div className="form-box">
-            <form className="login-form" onSubmit={this.onSubmit}>
-                <h2>Login</h2>
-                <hr/>
-                <div className="form-group">
-                    <input type="email" 
-                           id="email"
-                           placeholder="Email Address" 
-                           value={email} 
-                           error={errors}
-                           onChange={this.onChange}
-                           className={classnames("form-control", {
-                            invalid: errors.email || errors.emailnotfound
-                          })}/>
-                          <span className="red-text">
+        return(<>
+        <Container className="d-flex flex-column align-items-center">
+        <Card className="shadow w-50 mt-5">
+            <Link to="/" class="text-decoration-none text-white bg-dark pl-5 pt-3"><i className="fa fa-arrow-circle-left  "></i> Back to Home</Link>
+            <Card.Header className='pl-5 pt-3 pb-2 bg-dark text-white'>
+                <h2><strong>Login</strong></h2>
+            </Card.Header>
+            <Card.Body className='px-5'>
+                <Form onSubmit={this.onSubmit}>
+                    <Form.Group className="mt-2 mb-3">
+                        <Form.Control
+                            type="email" 
+                            id="email"
+                            placeholder="Email Address" 
+                            value={email} 
+                            error={errors}
+                            onChange={this.onChange}
+                            isInvalid={!!errors.email || !!errors.emailnotfound}
+                        />
+                        <Form.Control.Feedback type='invalid'>
                             {errors.email}
                             {errors.emailnotfound}
-                        </span>
-                </div>
-                <div className="form-group">
-                    <input type="password"  
-                           id="password" 
-                           placeholder="Password" 
-                           value={password} 
-                           error={errors}
-                           onChange={this.onChange}
-                           className={classnames("form-control", {
-                            invalid: errors.password || errors.passwordincorrect })}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mt-3 mb-3">
+                        <InputGroup>
+                            <Form.Control
+                                type="password"
+                                id="password" 
+                                placeholder="Password" 
+                                value={password} 
+                                error={errors}
+                                onChange={this.onChange}
+                                className={classnames("form-control", {
+                                    invalid: errors.password || errors.passwordincorrect })}
+                                isInvalid={!!errors.password || !!errors.passwordincorrect}
                             />
-                    <span className="red-text">
-                        {errors.password}
-                        {errors.passwordincorrect}
-                    </span>
-                </div>
-                <div className="form-group">
-                    <button type="submit" className="btn btn-primary btn-block btn-lg">Login</button>
-                </div>
-                <div className="text-center">Don't have an account? <Link to="/register">Register</Link></div>
-
-
-            </form>
-        </div>
-        )
+                            <Form.Control.Feedback type='invalid'>
+                                {errors.password}
+                                {errors.passwordincorrect}
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                    <div className='d-flex flex-column align-items-center mt-3'>
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
+                    </div>
+                    <div className="text-center mt-3">Don't have an account? <Link to="/register" class="text-decoration-none">Register</Link></div>
+                </Form>
+            </Card.Body>
+        </Card>
+        </Container>
+        </>)
     }
 }
 
