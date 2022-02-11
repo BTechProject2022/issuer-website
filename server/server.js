@@ -3,8 +3,12 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require("path");
+const bcrypt = require("bcryptjs");
 
 const users = require("./routes/api/users");
+
+// Load User model for admin registartion
+const User = require("./models/UserSchema");
 
 const app = express();
 
@@ -24,7 +28,28 @@ mongoose
     .connect(process.env.MONGODB_URI || dbURL,
     { useUnifiedTopology:true, useNewUrlParser: true }
     )
-    .then(() => console.log("MongoDB successfully connected"))
+    .then(() => {
+        const admin = new User({
+            name:"admin",
+            password:"admin",
+            email:"test@test.com"
+        });
+
+        // Hash password before storing in database
+        const rounds  = 10;
+        bcrypt.genSalt(rounds, (err, salt) => {
+            bcrypt.hash(admin.password, salt, (err, hash) => {
+            if (err) throw err;
+            admin.password = hash;
+            admin
+                .save()
+                .catch(err => console.log(err));
+            });
+        });
+        console.log("Admin Details :")
+        console.log("email : test@test.com , password : admin")
+        console.log("MongoDB successfully connected")
+    })
     .catch(err => console.log(err));
 
 // Passport middleware
