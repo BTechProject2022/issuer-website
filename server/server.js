@@ -7,11 +7,12 @@ const bcrypt = require("bcryptjs");
 
 const users = require("./routes/users");
 const did = require("./routes/did");
+const schema = require("./routes/schema");
 
 const app = express();
 
 //to create admin
-const User = require("./models/UserSchema");
+const User = require("./models/UserModel");
 
 // Bodyparser middleware
 app.use(
@@ -69,6 +70,7 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 app.use("/api/did", did);
+app.use("/api/schema", schema);
 
 if(process.env.NODE_ENV === 'production') {
    

@@ -9,7 +9,7 @@ const keys = require("../config/keys");
 //const validateLoginInput = require("../validation/login");
 
 // Load User model
-const User = require("../models/UserSchema");
+const User = require("../models/UserModel");
 
 // @route POST api/did/create
 // @desc Store address and public key for user and create DID.

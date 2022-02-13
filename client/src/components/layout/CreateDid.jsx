@@ -76,76 +76,67 @@ const CreateSchema = () => {
             </Card.Header>
             <Card.Body className='px-5'>
                 <Form onSubmit={onSubmit}>
-
-                    <Form.Group as={Row} className="mb-3">
-                        <Form.Label column sm="2">
-                            DID:
-                        </Form.Label>
-                        <Col sm="10">
-                            {user.did}
-                        </Col>
-                    </Form.Group>
-                    <Form.Group as={Row} className="mb-3">
-                        <Form.Label column sm="2">
-                            Address:
-                        </Form.Label>
-                        <Col sm="10">
-                            {user.address}
-                        </Col>
-                    </Form.Group>
-                    <Form.Group as={Row} className="mb-3">
-                        <Form.Label column sm="2">
-                            Public Key:
-                        </Form.Label>
-                        <Col sm="10">
-                            {user.publicKey}
-                        </Col>
-                    </Form.Group>
-                    <Card>
-                        <Card.Header as="h4">Generate DID</Card.Header>
-                        <Card.Body>
-                            <Form.Group as={Row} className="mb-3">
-                                <Form.Label column sm="2">
-                                    Address
-                                </Form.Label>
-                                <Col sm="10">
-                                    <Form.Control
-                                        type="text"
-                                        value={input.address}
-                                        name="address"
-                                        onChange={onChange}
-                                        disabled={!!(user.address)}
-                                    />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} className="mb-4">
-                                <Form.Label column sm="2">
-                                    Public Key
-                                </Form.Label>
-                                <Col sm="10">
-                                    <FormControl
-                                        type="text"
-                                        value={input.publicKey}
-                                        name="publicKey"
-                                        onChange={onChange}
-                                        disabled={!!(user.publicKey)}
-                                    />
-                                </Col>
-                            </Form.Group>
-                            <div className='d-flex flex-column align-items-center mt-3'>
-                                <Button
-                                    variant="primary"
-                                    type="submit"
-                                    disabled={!!(user.did)}
-                                >
-                                    Submit
-                                </Button>
-                            </div>
-                        </Card.Body>
-                    </Card>
-                </Form>
-            </Card.Body>
-        </Card>
+                    { (!!user.did)? (<>
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label column sm="2">
+                                DID:
+                            </Form.Label>
+                            <Col sm="10">
+                                {user.did}
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label column sm="2">
+                                Address:
+                            </Form.Label>
+                            <Col sm="10">
+                                {user.address}
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label column sm="2">
+                                Public Key:
+                            </Form.Label>
+                            <Col sm="10">
+                                {user.publicKey}
+                            </Col>
+                        </Form.Group>
+                    </>):(<>
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label column sm="2">
+                                Address
+                            </Form.Label>
+                            <Col sm="10">
+                                <Form.Control
+                                    type="text"
+                                    value={input.address}
+                                    name="address"
+                                    onChange={onChange}
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-4">
+                            <Form.Label column sm="2">
+                                Public Key
+                            </Form.Label>
+                            <Col sm="10">
+                                <FormControl
+                                    type="text"
+                                    value={input.publicKey}
+                                    name="publicKey"
+                                    onChange={onChange}
+                                />
+                            </Col>
+                        </Form.Group>
+                        <div className='d-flex flex-column align-items-center mt-3'>
+                            <Button
+                                variant="primary"
+                                type="submit"
+                            >
+                                Submit
+                            </Button>
+                        </div>
+                    </>)} </Form> </Card.Body> </Card>
         </Container>
     </>);
 }

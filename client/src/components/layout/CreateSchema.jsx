@@ -1,12 +1,30 @@
-import React , {useState} from "react";
+import React , {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { Row , Col , FormControl , InputGroup , Button , Form , Card , Container } from "react-bootstrap";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 
 const CreateSchema = () => {
 
+    const email = useSelector( (state) => state.auth.user.email);
+    const [ name , setName ] = useState("")
+    const [ description , setDescription ] = useState("")
     const [ form , setForm ] = useState([]);
+    const [ user , setUser ] = useState({});
+
+    useEffect(() => {
+        axios.get('api/users/info',{
+            params :{
+                email : email,
+            }
+        })
+        .then( (res) => {
+            const data = res.data;
+            setUser(data);
+        })
+    },[])
 
     const addProperty = (e) => {
         e.preventDefault();
@@ -48,7 +66,21 @@ const CreateSchema = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(form);
+        let schemaData = {
+            name : name,
+            did : user.did,
+            description : description,
+            properties : form
+        }
+        axios.post('/api/schema/create',schemaData)
+            .then( res => {
+                const data = res.data;
+                setName("");
+                setDescription("");
+                setForm([]);
+                console.log(data);
+            })
+            .catch(err => console.log(err));
     };
 
     return (<>
@@ -65,7 +97,11 @@ const CreateSchema = () => {
                             Name
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type="text"/>
+                            <Form.Control
+                                type="text"
+                                value = {name}
+                                onChange = { e => setName(e.target.value) }
+                            />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} className="mb-4">
@@ -73,7 +109,11 @@ const CreateSchema = () => {
                             Description
                         </Form.Label>
                         <Col sm="10">
-                            <FormControl as="textarea"/>
+                            <FormControl
+                                as="textarea"
+                                value = {description}
+                                onChange = { e => setDescription(e.target.value) }
+                            />
                         </Col>
                     </Form.Group>
                     {
