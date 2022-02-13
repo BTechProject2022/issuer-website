@@ -16,6 +16,7 @@ import Login from "./components/layout/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/layout/Dashboard";
 import CreateSchema from "./components/layout/CreateSchema";
+import CreateDid from "./components/layout/CreateDid";
 
 if (localStorage.jwtToken) {
 
@@ -42,6 +43,7 @@ function App() {
             <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute exact path="/createSchema" component={CreateSchema} />
+                <PrivateRoute exact path="/createDid" component={CreateDid} />
                 </Switch>
             </div>
         </Router>

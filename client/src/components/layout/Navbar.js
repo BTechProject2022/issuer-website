@@ -20,8 +20,13 @@ const NavBar = () => {
             {
                 isAuthenticated && 
                 <Nav className="me-auto">
-                    { !isAdmin && <Nav.Link href="/dashboard">Dashboard</Nav.Link> }
-                    { isAdmin && <Nav.Link href="/createSchema">Create Schema</Nav.Link> }
+                    <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                    { isAdmin && 
+                        <>
+                            <Nav.Link href="/createSchema">Create Schema</Nav.Link>
+                            <Nav.Link href="/createDid">Create DID</Nav.Link>
+                        </>
+                    }
                 </Nav>
             }
             </Container>

@@ -22,6 +22,18 @@ const UserSchema = new Schema({
   isAdmin: {
     type: Boolean,
     default: false
+  },
+  address: {
+    type: String,
+    default: ""
+  },
+  publicKey: {
+    type: String,
+    default: ""
+  },
+  did: {
+    type: String,
+    default: ""
   }
 });
 
