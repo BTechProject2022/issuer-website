@@ -1,20 +1,45 @@
-import React , {useState} from "react";
+import React , {useEffect, useState} from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
+import axios from 'axios';
 import classnames from "classnames";
 import { Row , Col , FormControl , InputGroup , Button , Form , Card , Container } from "react-bootstrap";
 
 
 const CreateSchema = () => {
 
+    const dispatch = useDispatch();
+    const userEmail = useSelector( state => state.auth.user.email);
     const [ user , setUser ] = useState({
         address : "",
-        publicKey : ""
+        publicKey : "",
+        did : "",
     });
+
+    const [ input , setInput ] = useState({
+        address : "",
+        publicKey : "",
+    })
+
+    useEffect(() => {
+        axios.get('api/users/info',{
+            params : {
+                email : userEmail,
+            }
+        }).then((data) =>{
+            data = data.data;
+            setUser({
+                address : data.address,
+                publicKey : data.publicKey,
+                did : data.did,
+            })
+        })
+    },[])
 
     const onChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setUser( (prev) => {
+        setInput( (prev) => {
             return {
                 ...prev,
                 [name] : value,
@@ -24,49 +49,100 @@ const CreateSchema = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(user);
+        console.log(input);
+        axios.post('api/did/create',{
+            email : userEmail,
+            address : input.address,
+            publicKey : input.publicKey,
+        }).then(res => res.data)
+        .then(data => {
+            setUser({
+                address : data.address,
+                publicKey : data.publicKey,
+                did : data.did,
+            })
+            setInput({
+                address : "",
+                publicKey : "",
+            })
+        })
     };
 
     return (<>
         <Container className="d-flex flex-column align-items-center">
         <Card className="shadow w-75 mt-5 mb-5">
             <Card.Header className='pl-5 pt-3 pb-2 d-flex flex-column align-items-center bg-dark text-white'>
-                <h2><strong>Create DID</strong></h2>
+                <h2><strong>DID</strong></h2>
             </Card.Header>
             <Card.Body className='px-5'>
                 <Form onSubmit={onSubmit}>
 
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="2">
-                            Address
+                            DID:
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control
-                                type="text"
-                                value={user.address}
-                                name="address"
-                                onChange={onChange}
-                            />
+                            {user.did}
                         </Col>
                     </Form.Group>
-                    <Form.Group as={Row} className="mb-4">
+                    <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="2">
-                            Public Key
+                            Address:
                         </Form.Label>
                         <Col sm="10">
-                            <FormControl
-                                type="text"
-                                value={user.publicKey}
-                                name="publicKey"
-                                onChange={onChange}
-                            />
+                            {user.address}
                         </Col>
                     </Form.Group>
-                    <div className='d-flex flex-column align-items-center mt-3'>
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
-                    </div>
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="2">
+                            Public Key:
+                        </Form.Label>
+                        <Col sm="10">
+                            {user.publicKey}
+                        </Col>
+                    </Form.Group>
+                    <Card>
+                        <Card.Header as="h4">Generate DID</Card.Header>
+                        <Card.Body>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label column sm="2">
+                                    Address
+                                </Form.Label>
+                                <Col sm="10">
+                                    <Form.Control
+                                        type="text"
+                                        value={input.address}
+                                        name="address"
+                                        onChange={onChange}
+                                        disabled={!!(user.address)}
+                                    />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} className="mb-4">
+                                <Form.Label column sm="2">
+                                    Public Key
+                                </Form.Label>
+                                <Col sm="10">
+                                    <FormControl
+                                        type="text"
+                                        value={input.publicKey}
+                                        name="publicKey"
+                                        onChange={onChange}
+                                        disabled={!!(user.publicKey)}
+                                    />
+                                </Col>
+                            </Form.Group>
+                            <div className='d-flex flex-column align-items-center mt-3'>
+                                <Button
+                                    variant="primary"
+                                    type="submit"
+                                    disabled={!!(user.did)}
+                                >
+                                    Submit
+                                </Button>
+                            </div>
+                        </Card.Body>
+                    </Card>
                 </Form>
             </Card.Body>
         </Card>

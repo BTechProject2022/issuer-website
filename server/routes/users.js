@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = require("../../config/keys");
+const keys = require("../config/keys");
 
 // Load input validation
-const validateRegisterInput = require("../../validation/register");
-const validateLoginInput = require("../../validation/login");
+const validateRegisterInput = require("../validation/register");
+const validateLoginInput = require("../validation/login");
 
 // Load User model
-const User = require("../../models/UserSchema");
+const User = require("../models/UserSchema");
 
 // @route POST api/users/register
 // @desc Register user
@@ -51,6 +51,32 @@ router.post("/register", (req, res) => {
 
     });
 
+});
+
+// @route GET api/users/info
+// @desc Getting user info from db
+// @access Public
+
+router.get("/info",(req,res) => {
+
+    console.log("geeting user info");
+    const email = req.query.email;
+    //Find user by Email
+    User.findOne({email}).then(user=>{
+        if(!user){
+            return res.status(404).json({ emailnotfound: "Email not found" });
+        }
+        res.status(200)
+            .json({
+                id : user.id,
+                name : user.name,
+                email : user.email,
+                isAdmin : user.isAdmin,
+                address : user.address,
+                publicKey : user.publicKey,
+                did : user.did,
+            })
+    });
 });
 
 // @route POST api/users/login

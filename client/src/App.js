@@ -33,7 +33,6 @@ if (localStorage.jwtToken) {
 
 function App() {
     return (
-        <Provider store={store} >
         <Router>
             <div className="App">
             <Navbar/>
@@ -47,7 +46,6 @@ function App() {
                 </Switch>
             </div>
         </Router>
-        </Provider>
   );
 }
 

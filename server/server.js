@@ -5,7 +5,8 @@ const passport = require("passport");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 
-const users = require("./routes/api/users");
+const users = require("./routes/users");
+const did = require("./routes/did");
 
 const app = express();
 
@@ -67,6 +68,7 @@ require("./config/passport")(passport);
 
 // Routes
 app.use("/api/users", users);
+app.use("/api/did", did);
 
 if(process.env.NODE_ENV === 'production') {
    

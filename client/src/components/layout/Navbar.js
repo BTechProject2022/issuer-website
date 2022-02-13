@@ -24,7 +24,7 @@ const NavBar = () => {
                     { isAdmin && 
                         <>
                             <Nav.Link href="/createSchema">Create Schema</Nav.Link>
-                            <Nav.Link href="/createDid">Create DID</Nav.Link>
+                            <Nav.Link href="/createDid">DID</Nav.Link>
                         </>
                     }
                 </Nav>
