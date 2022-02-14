@@ -59,7 +59,6 @@ router.post("/register", (req, res) => {
 
 router.get("/info",(req,res) => {
 
-    console.log("geeting user info");
     const email = req.query.email;
     //Find user by Email
     User.findOne({email}).then(user=>{

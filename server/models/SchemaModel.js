@@ -11,7 +11,7 @@ const SchemaModel = new Schema({
     type: String,
     default : "Description for the Schema"
   },
-  hexcode: {
+  did: {
     type: String,
     required: true
   },

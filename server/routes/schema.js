@@ -14,9 +14,10 @@ router.post("/create", (req, res) => {
 
     const schemaData = req.body;
 
-    //making api call to main server and get schema hexcode.
-    const schemaHex = "hexcode";
-    //store schema (name , description , hexcode) in database
+    //making api call to main server and get schema DID.
+    const schemaDid = "did:"+schemaData.name;
+
+    //store schema (name , description , DID) in database
     Schema.findOne({name:schemaData.name}).then(schema=>{
         if(schema){
             return res.status(400).json({error:"Schema with the same name already exists"});
@@ -24,7 +25,7 @@ router.post("/create", (req, res) => {
             const newSchema = new Schema({
                 name : schemaData.name,
                 description : schemaData.description,
-                hexcode : schemaHex
+                did : schemaDid
             });
             console.log(newSchema);
 
