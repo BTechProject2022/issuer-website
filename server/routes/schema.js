@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
+const http = require("http");
 
 // Load User model
 const Schema = require("../models/SchemaModel");
@@ -34,11 +35,69 @@ router.get("/getAll", (req, res) => {
 // @access Public
 router.post("/create", (req, res) => {
   const schemaData = req.body;
+  console.log(schemaData);
 
   //making api call to main server and get schema DID.
-  const schemaDid = "did:" + schemaData.name;
+  const reqObject = {
+    issuerDID: schemaData.did,
+    name: schemaData.name,
+    description: schemaData.description,
+    properties: schemaData.properties,
+  };
+  const data = JSON.stringify(reqObject);
+
+  const options = {
+    hostname: "localhost",
+    port: 8080,
+    path: "/createSchema",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Content-Length": data.length,
+    },
+  };
+
+  const request = http
+    .request(options, (response) => {
+      console.log(`statusCode: ${response.statusCode}`);
+
+      response.on("data", (d) => {
+        const schemaDid = JSON.parse(d).did;
+        Schema.findOne({ did: schemaDid }).then((schema) => {
+          if (schema) {
+            return res
+              .status(400)
+              .json({ error: "The same schema alredy exists" });
+          } else {
+            const newSchema = new Schema({
+              name: schemaData.name,
+              description: schemaData.description,
+              did: schemaDid,
+            });
+            console.log(newSchema);
+
+            newSchema
+              .save()
+              .then((data) => {
+                console.log(data);
+                res.status(200).json(data);
+              })
+              .catch((err) => {
+                console.log(err);
+                res.status(400).json({ error: "Error in updating Schema DB" });
+              });
+          }
+        });
+      });
+    })
+    .on("error", (error) => {
+      console.error(error);
+    });
+  request.write(data);
+  request.end();
 
   //store schema (name , description , DID) in database
+  /*
   Schema.findOne({ name: schemaData.name }).then((schema) => {
     if (schema) {
       return res
@@ -64,6 +123,7 @@ router.post("/create", (req, res) => {
         });
     }
   });
+  */
 });
 
 module.exports = router;

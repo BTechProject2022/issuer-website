@@ -22,7 +22,7 @@ const CredentialList = () => {
 
   useEffect(() => {
     axios
-      .get("/api/schema/getAll")
+      .get("http://localhost:4000/api/schema/getAll")
       .then((res) => {
         const data = res.data;
         setCredList(data.schemas);
