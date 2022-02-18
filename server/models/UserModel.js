@@ -5,36 +5,44 @@ const Schema = mongoose.Schema;
 const UserModel = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
+  },
+  studentId: {
+    type: String,
+    required: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   isAdmin: {
     type: Boolean,
-    default: false
+    default: false,
   },
   address: {
     type: String,
-    default: ""
+    default: "",
   },
   publicKey: {
     type: String,
-    default: ""
+    default: "",
+  },
+  privateKey: {
+    type: String,
+    default: "",
   },
   did: {
     type: String,
-    default: ""
-  }
+    default: "",
+  },
 });
 
 module.exports = mongoose.model("users", UserModel);

@@ -20,12 +20,14 @@ const CreateSchema = () => {
   const [user, setUser] = useState({
     address: "",
     publicKey: "",
+    privateKey: "",
     did: "",
   });
 
   const [input, setInput] = useState({
     address: "",
     publicKey: "",
+    privateKey: "",
   });
 
   useEffect(() => {
@@ -40,6 +42,7 @@ const CreateSchema = () => {
         setUser({
           address: data.address,
           publicKey: data.publicKey,
+          privateKey: data.privateKey,
           did: data.did,
         });
       });
@@ -63,6 +66,7 @@ const CreateSchema = () => {
         email: userEmail,
         address: input.address,
         publicKey: input.publicKey,
+        privateKey: input.privateKey,
       })
       .then((res) => res.data)
       .then((data) => {
@@ -70,11 +74,13 @@ const CreateSchema = () => {
         setUser({
           address: data.address,
           publicKey: data.publicKey,
+          privateKey: data.privateKey,
           did: data.did,
         });
         setInput({
           address: "",
           publicKey: "",
+          privateKey: "",
         });
       });
   };
@@ -110,6 +116,12 @@ const CreateSchema = () => {
                     </Form.Label>
                     <Col sm="10">{user.publicKey}</Col>
                   </Form.Group>
+                  <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm="2">
+                      Private Key:
+                    </Form.Label>
+                    <Col sm="10">{user.privateKey}</Col>
+                  </Form.Group>
                 </>
               ) : (
                 <>
@@ -135,6 +147,19 @@ const CreateSchema = () => {
                         type="text"
                         value={input.publicKey}
                         name="publicKey"
+                        onChange={onChange}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} className="mb-4">
+                    <Form.Label column sm="2">
+                      Private Key
+                    </Form.Label>
+                    <Col sm="10">
+                      <FormControl
+                        type="text"
+                        value={input.privateKey}
+                        name="privateKey"
                         onChange={onChange}
                       />
                     </Col>

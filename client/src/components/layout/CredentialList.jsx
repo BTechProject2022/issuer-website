@@ -13,27 +13,41 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const CredentialList = () => {
-  const user = useSelector((state) => state.auth.user);
-  const qrValue = JSON.stringify(user);
-
+  const localUserData = useSelector((state) => state.auth.user);
+  const [userData, setUserData] = useState({});
   const [credList, setCredList] = useState([]);
-  const [currendCred, setCurrentCred] = useState({});
   const [show, setShow] = useState(false);
+  const [qrValue, setQrValue] = useState("");
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/schema/getAll")
-      .then((res) => {
-        const data = res.data;
-        setCredList(data.schemas);
+      .get("http://localhost:4000/api/users/info", {
+        params: {
+          email: localUserData.email,
+        },
       })
-      .catch((error) => console.log(error));
+      .then((response) => {
+        setUserData(response.data);
+        axios
+          .get("http://localhost:4000/api/schema/getAll")
+          .then((res) => {
+            const data = res.data;
+            setCredList(data.schemas);
+          })
+          .catch((error) => console.log(error));
+      });
   }, []);
 
   const onGenerateQr = (e, index) => {
     setShow(true);
-    //make axios call to get Current Credentials
-    //diplay credentials as QR code
+    console.log(userData);
+    setQrValue(
+      JSON.stringify({
+        url: "http://localhost:4000/api/credential/create",
+        schemaDid: credList[index].did,
+        studentId: userData.studentId,
+      })
+    );
   };
 
   return (
@@ -68,14 +82,16 @@ const CredentialList = () => {
               </Card.Header>
               <Card.Body>
                 <Card.Text>{value.description}</Card.Text>
-                <div className="text-end">
-                  <Button
-                    variant="primary"
-                    onClick={(e) => onGenerateQr(e, ind)}
-                  >
-                    Generate QR
-                  </Button>
-                </div>
+                {!localUserData.isAdmin && (
+                  <div className="text-end">
+                    <Button
+                      variant="primary"
+                      onClick={(e) => onGenerateQr(e, ind)}
+                    >
+                      Generate QR
+                    </Button>
+                  </div>
+                )}
               </Card.Body>
             </Card>
           );

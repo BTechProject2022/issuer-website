@@ -9,6 +9,7 @@ const bcrypt = require("bcryptjs");
 const users = require("./routes/users");
 const did = require("./routes/did");
 const schema = require("./routes/schema");
+const credential = require("./routes/credential");
 
 const app = express();
 app.use(cors());
@@ -40,6 +41,7 @@ mongoose
           name: "admin",
           password: "admin",
           email: "admin@admin.com",
+          studentId: Math.floor(Math.random() * 10000 + 1) + "",
           isAdmin: true,
         });
 
@@ -69,6 +71,7 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/did", did);
 app.use("/api/schema", schema);
+app.use("/api/credential", credential);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client", "build")));
