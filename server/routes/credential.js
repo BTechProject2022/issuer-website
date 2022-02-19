@@ -11,7 +11,7 @@ const User = require("../models/UserModel");
 // @route GET api/credential/create
 // @desc create the cred , call main server and send did to client
 // @access Public
-router.get("/create", (req, res) => {
+router.post("/create", (req, res) => {
   const reqObject = {
     schemaDid: req.body.schemaDid,
     userDid: req.body.userDid,

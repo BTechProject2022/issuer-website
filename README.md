@@ -1,13 +1,11 @@
-## Quick Start
+## How to start client server
 
-```
-// run the below command to Install dependencies for both server & client
-npm install
+- add your IP in the .env file (eg. 192.145.2.42).
+- cd into the folder and run `npm install`
+- to start the server , run `npm start`
 
-// Run client & server with concurrently
-npm start
+## How to start api server
 
-// Server runs on http://localhost:5000 and client on http://localhost:3000
-
-```
-
+- make sure mongo is running ( port number : `27017`)
+- cd into the folder and run `npm install`
+- to start the server , run `npm start`

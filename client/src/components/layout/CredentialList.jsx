@@ -12,6 +12,9 @@ import {
 import axios from "axios";
 import { useSelector } from "react-redux";
 
+require("dotenv").config();
+const LOCAL_IP = process.env.REACT_APP_LOCAL_IP;
+
 const CredentialList = () => {
   const localUserData = useSelector((state) => state.auth.user);
   const [userData, setUserData] = useState({});
@@ -40,10 +43,15 @@ const CredentialList = () => {
 
   const onGenerateQr = (e, index) => {
     setShow(true);
-    console.log(userData);
+    console.log(process.env.REACT_APP_LOCAL_IP);
+    const link =
+      "http://" +
+      process.env.REACT_APP_LOCAL_IP +
+      ":4000/api/credential/create";
+    console.log(link);
     setQrValue(
       JSON.stringify({
-        url: "http://localhost:4000/api/credential/create",
+        url: link,
         schemaDid: credList[index].did,
         studentId: userData.studentId,
       })
