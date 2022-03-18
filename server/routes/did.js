@@ -10,6 +10,10 @@ const keys = require("../config/keys");
 //const validateRegisterInput = require("../validation/register");
 //const validateLoginInput = require("../validation/login");
 
+require("dotenv").config();
+const LOCAL_IP = process.env.LOCAL_IP;
+const MAIN_BACKEND_PORT = process.env.MAIN_BACKEND_PORT;
+
 // Load User model
 const User = require("../models/UserModel");
 const Schema = require("../models/SchemaModel");
@@ -33,9 +37,11 @@ router.post("/create", (req, res) => {
   };
   const data = JSON.stringify(reqObject);
 
+  console.log(LOCAL_IP, MAIN_BACKEND_PORT);
+
   const options = {
-    hostname: "localhost",
-    port: 8080,
+    hostname: LOCAL_IP,
+    port: MAIN_BACKEND_PORT,
     path: "/createDID",
     method: "POST",
     headers: {
@@ -135,8 +141,8 @@ router.post("/create", (req, res) => {
               console.log(stringData);
 
               const opts = {
-                hostname: "localhost",
-                port: 8080,
+                hostname: LOCAL_IP,
+                port: MAIN_BACKEND_PORT,
                 path: "/createSchema",
                 method: "POST",
                 headers: {

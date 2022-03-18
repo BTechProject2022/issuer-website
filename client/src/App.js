@@ -1,13 +1,12 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import {Provider} from 'react-redux';
-import store from './store';
+import store from "./store";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./util/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 
 //import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
@@ -19,13 +18,14 @@ import CreateSchema from "./components/layout/CreateSchema";
 import CreateDid from "./components/layout/CreateDid";
 import CredentialList from "./components/layout/CredentialList";
 
-if (localStorage.jwtToken) {
+require("dotenv").config();
 
+if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
   setAuthToken(token);
   const decoded = jwt_decode(token);
   store.dispatch(setCurrentUser(decoded));
-  const currentTime = Date.now() / 1000; 
+  const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
     window.location.href = "./login";
@@ -33,21 +33,21 @@ if (localStorage.jwtToken) {
 }
 
 function App() {
-    return (
-        <Router>
-            <div className="App">
-            <Navbar/>
-            <Route path="/" component = {Landing} exact />
-            <Route path="/register" component={Register} exact/>
-            <Route path="/login" component={Login} exact/>
-            <Switch>
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                <PrivateRoute exact path="/createSchema" component={CreateSchema} />
-                <PrivateRoute exact path="/createDid" component={CreateDid} />
-                <PrivateRoute exact path="/credentials" component={CredentialList} />
-                </Switch>
-            </div>
-        </Router>
+  return (
+    <Router>
+      <div className="App">
+        <Navbar />
+        <Route path="/" component={Landing} exact />
+        <Route path="/register" component={Register} exact />
+        <Route path="/login" component={Login} exact />
+        <Switch>
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute exact path="/createSchema" component={CreateSchema} />
+          <PrivateRoute exact path="/createDid" component={CreateDid} />
+          <PrivateRoute exact path="/credentials" component={CredentialList} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

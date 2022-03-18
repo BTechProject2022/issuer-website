@@ -11,6 +11,8 @@ const did = require("./routes/did");
 const schema = require("./routes/schema");
 const credential = require("./routes/credential");
 
+require("dotenv").config();
+
 const app = express();
 app.use(cors());
 
@@ -26,7 +28,7 @@ app.use(
 
 app.use(bodyParser.json());
 
-const dbURL = "mongodb://localhost:27017/mern-auth";
+const dbURL = "mongodb://localhost:27017/issuer-db";
 
 //connect to MongoDB
 mongoose

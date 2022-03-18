@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { QRCode } from "react-qr-svg";
-import {
-  Modal,
-  Card,
-  Row,
-  Col,
-  Button,
-  Container,
-  Table,
-} from "react-bootstrap";
+import { Modal, Card, Button, Container } from "react-bootstrap";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
 require("dotenv").config();
 const LOCAL_IP = process.env.REACT_APP_LOCAL_IP;
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
 
 const CredentialList = () => {
   const localUserData = useSelector((state) => state.auth.user);
@@ -24,7 +17,7 @@ const CredentialList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/users/info", {
+      .get("http://" + LOCAL_IP + ":" + BACKEND_PORT + "/api/users/info", {
         params: {
           email: localUserData.email,
         },
@@ -32,7 +25,7 @@ const CredentialList = () => {
       .then((response) => {
         setUserData(response.data);
         axios
-          .get("http://localhost:4000/api/schema/getAll")
+          .get("http://" + LOCAL_IP + ":" + BACKEND_PORT + "/api/schema/getAll")
           .then((res) => {
             const data = res.data;
             setCredList(data.schemas);
@@ -43,11 +36,8 @@ const CredentialList = () => {
 
   const onGenerateQr = (e, index) => {
     setShow(true);
-    console.log(process.env.REACT_APP_LOCAL_IP);
     const link =
-      "http://" +
-      process.env.REACT_APP_LOCAL_IP +
-      ":4000/api/credential/create";
+      "http://" + LOCAL_IP + ":" + BACKEND_PORT + "/api/credential/create";
     console.log(link);
     setQrValue(
       JSON.stringify({

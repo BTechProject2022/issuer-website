@@ -4,10 +4,17 @@ import jwt_decode from "jwt-decode";
 
 import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 
+require("dotenv").config();
+const LOCAL_IP = process.env.REACT_APP_LOCAL_IP;
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
+
 //Register User
 export const registerUser = (userData, history) => (dispatch) => {
   axios
-    .post("http://localhost:4000/api/users/register", userData)
+    .post(
+      "http://" + LOCAL_IP + ":" + BACKEND_PORT + "/api/users/register",
+      userData
+    )
     .then((res) => history.push("/login"))
     .catch((err) =>
       dispatch({
@@ -20,7 +27,10 @@ export const registerUser = (userData, history) => (dispatch) => {
 //Login
 export const loginUser = (userData) => (dispatch) => {
   axios
-    .post("http://localhost:4000/api/users/login", userData)
+    .post(
+      "http://" + LOCAL_IP + ":" + BACKEND_PORT + "/api/users/login",
+      userData
+    )
     .then((res) => {
       const { token } = res.data;
       // Set token to localStorage

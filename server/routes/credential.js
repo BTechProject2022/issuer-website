@@ -8,6 +8,10 @@ const secp = require("@noble/secp256k1");
 const Schema = require("../models/SchemaModel");
 const User = require("../models/UserModel");
 
+require("dotenv").config();
+const LOCAL_IP = process.env.LOCAL_IP;
+const MAIN_BACKEND_PORT = process.env.MAIN_BACKEND_PORT;
+
 // @route GET api/credential/create
 // @desc create the cred , call main server and send did to client
 // @access Public
@@ -77,8 +81,8 @@ router.post("/create", (req, res) => {
                     const data = JSON.stringify(verifiableCredential);
 
                     const options = {
-                      hostname: "localhost",
-                      port: 8080,
+                      hostname: LOCAL_IP,
+                      port: MAIN_BACKEND_PORT,
                       path: "/addCredential",
                       method: "POST",
                       headers: {
@@ -121,73 +125,6 @@ router.post("/create", (req, res) => {
       console.log(err);
       res.status(400).json({ error: err });
     });
-});
-
-// @route POST api/schema/create
-// @desc Store the schema in blockchain and database.
-// @access Public
-router.post("/create", (req, res) => {
-  const schemaData = req.body;
-  console.log(schemaData);
-
-  //making api call to main server and get schema DID.
-  const reqObject = {
-    issuerDID: schemaData.did,
-    name: schemaData.name,
-    description: schemaData.description,
-    properties: schemaData.properties,
-  };
-  const data = JSON.stringify(reqObject);
-
-  const options = {
-    hostname: "localhost",
-    port: 8080,
-    path: "/createSchema",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Content-Length": data.length,
-    },
-  };
-
-  const request = http
-    .request(options, (response) => {
-      console.log(`statusCode: ${response.statusCode}`);
-
-      response.on("data", (d) => {
-        const schemaDid = JSON.parse(d).did;
-        Schema.findOne({ did: schemaDid }).then((schema) => {
-          if (schema) {
-            return res
-              .status(400)
-              .json({ error: "The same schema alredy exists" });
-          } else {
-            const newSchema = new Schema({
-              name: schemaData.name,
-              description: schemaData.description,
-              did: schemaDid,
-            });
-            console.log(newSchema);
-
-            newSchema
-              .save()
-              .then((data) => {
-                console.log(data);
-                res.status(200).json(data);
-              })
-              .catch((err) => {
-                console.log(err);
-                res.status(400).json({ error: "Error in updating Schema DB" });
-              });
-          }
-        });
-      });
-    })
-    .on("error", (error) => {
-      console.error(error);
-    });
-  request.write(data);
-  request.end();
 });
 
 module.exports = router;

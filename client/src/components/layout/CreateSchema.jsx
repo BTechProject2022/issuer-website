@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import classnames from "classnames";
 import {
   Alert,
   Row,
   Col,
   FormControl,
-  InputGroup,
   Button,
   Form,
   Card,
@@ -14,6 +11,10 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import { useSelector } from "react-redux";
+
+require("dotenv").config();
+const LOCAL_IP = process.env.REACT_APP_LOCAL_IP;
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
 
 const CreateSchema = () => {
   const email = useSelector((state) => state.auth.user.email);
@@ -24,7 +25,7 @@ const CreateSchema = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/users/info", {
+      .get("http://" + LOCAL_IP + ":" + BACKEND_PORT + "/api/users/info", {
         params: {
           email: email,
         },
@@ -79,7 +80,10 @@ const CreateSchema = () => {
       properties: form,
     };
     axios
-      .post("http://localhost:4000/api/schema/create", schemaData)
+      .post(
+        "http://" + LOCAL_IP + ":" + BACKEND_PORT + "/api/schema/create",
+        schemaData
+      )
       .then((res) => {
         const data = res.data;
         setName("");
