@@ -28,12 +28,14 @@ router.post("/create", (req, res) => {
     address: req.body.address,
     publicKey: req.body.publicKey,
     privateKey: req.body.privateKey,
+    orgName: req.body.orgName,
   };
 
   //getting did from main server.
   const reqObject = {
     address: userData.address,
     publicKey: userData.publicKey,
+    name: userData.orgName,
   };
   const data = JSON.stringify(reqObject);
 
@@ -57,6 +59,7 @@ router.post("/create", (req, res) => {
       response.on("data", (d) => {
         const { did } = JSON.parse(d);
         User.findOne({ email: userData.email }).then((user) => {
+          user.orgName = userData.orgName;
           user.address = userData.address;
           user.publicKey = userData.publicKey;
           user.privateKey = userData.privateKey;
