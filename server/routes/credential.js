@@ -11,6 +11,7 @@ const User = require("../models/UserModel");
 require("dotenv").config();
 const LOCAL_IP = process.env.LOCAL_IP;
 const MAIN_BACKEND_PORT = process.env.MAIN_BACKEND_PORT;
+const API_IP = process.env.API_IP;
 
 // @route GET api/credential/create
 // @desc create the cred , call main server and send did to client
@@ -49,6 +50,7 @@ router.post("/create", (req, res) => {
                       birthDate: "01/01/01",
                       collegeID: user.studentId,
                       graduationDate: "20/05/2022",
+                      credentialName: schema.name,
                       address:
                         "VJTI Hostel,VJTI College, Five Garden Circle,Matunga-40001",
                       guardian: "Parent Name",
@@ -81,7 +83,7 @@ router.post("/create", (req, res) => {
                     const data = JSON.stringify(verifiableCredential);
 
                     const options = {
-                      hostname: LOCAL_IP,
+                      hostname: API_IP,
                       port: MAIN_BACKEND_PORT,
                       path: "/addCredential",
                       method: "POST",

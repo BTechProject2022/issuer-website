@@ -8,6 +8,7 @@ const Schema = require("../models/SchemaModel");
 require("dotenv").config();
 const LOCAL_IP = process.env.LOCAL_IP;
 const MAIN_BACKEND_PORT = process.env.MAIN_BACKEND_PORT;
+const API_IP = process.env.API_IP;
 
 // @route GET api/schema/getAll
 // @desc Get all the schema(name , desc, did) from the schema db
@@ -48,7 +49,7 @@ router.post("/create", (req, res) => {
   const data = JSON.stringify(reqObject);
 
   const options = {
-    hostname: LOCAL_IP,
+    hostname: API_IP,
     port: MAIN_BACKEND_PORT,
     path: "/createSchema",
     method: "POST",

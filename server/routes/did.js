@@ -13,6 +13,7 @@ const keys = require("../config/keys");
 require("dotenv").config();
 const LOCAL_IP = process.env.LOCAL_IP;
 const MAIN_BACKEND_PORT = process.env.MAIN_BACKEND_PORT;
+const API_IP = process.env.API_IP;
 
 // Load User model
 const User = require("../models/UserModel");
@@ -42,7 +43,7 @@ router.post("/create", (req, res) => {
   console.log(LOCAL_IP, MAIN_BACKEND_PORT);
 
   const options = {
-    hostname: LOCAL_IP,
+    hostname: API_IP,
     port: MAIN_BACKEND_PORT,
     path: "/createDID",
     method: "POST",
@@ -144,7 +145,7 @@ router.post("/create", (req, res) => {
               console.log(stringData);
 
               const opts = {
-                hostname: LOCAL_IP,
+                hostname: API_IP,
                 port: MAIN_BACKEND_PORT,
                 path: "/createSchema",
                 method: "POST",
