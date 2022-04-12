@@ -20,7 +20,7 @@ router.post("/create", (req, res) => {
   const reqObject = {
     schemaDid: req.body.schemaDid,
     userDid: req.body.userDid,
-    studentId: req.body.studentId,
+    studentId: req.body.userId,
   };
   Schema.findOne({ did: reqObject.schemaDid })
     .then((schema) => {
@@ -105,7 +105,7 @@ router.post("/create", (req, res) => {
                         });
                       })
                       .on("error", (error) => {
-                        console.error(error);
+                        console.log(error);
                       });
                     request.write(data);
                     request.end();

@@ -43,7 +43,7 @@ const CredentialList = () => {
       JSON.stringify({
         url: link,
         schemaDid: credList[index].did,
-        studentId: userData.studentId,
+        userId: userData.studentId,
       })
     );
   };
