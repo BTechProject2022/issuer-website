@@ -50,7 +50,6 @@ router.post("/create", (req, res) => {
                       birthDate: "01/01/01",
                       collegeID: user.studentId,
                       graduationDate: "20/05/2022",
-                      credentialName: schema.name,
                       address:
                         "VJTI Hostel,VJTI College, Five Garden Circle,Matunga-40001",
                       guardian: "Parent Name",
@@ -71,6 +70,7 @@ router.post("/create", (req, res) => {
                       ownerDID: reqObject.userDid,
                       issuanceDate: new Date().toISOString(),
                       credentialSubject: credentialSubject,
+                      credentialName: schema.name,
                       proof: {
                         type: "RsaSignature2018",
                         created: new Date().toISOString(),
